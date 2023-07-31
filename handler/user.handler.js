@@ -11,7 +11,7 @@ exports.login = (UserModel) => async (req, res, next) => {
     if (!doc) {
       res.status(200).json({
         status: 200,
-        message: `Can not create data`,
+        message: `Can not let user login`,
       });
       return next();
     }
