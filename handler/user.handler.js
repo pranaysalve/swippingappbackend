@@ -3,9 +3,11 @@ exports.login = (UserModel) => async (req, res, next) => {
     const findData = await UserModel.find({
       MobileNumber: req.body.MobileNumber,
     });
-    if (findData) {
+    
+    if (findData.length < 0) {
       res.status(200).json({
         message: `Mobile Number already exists`,
+        data: findData,
       });
       return next();
     }
