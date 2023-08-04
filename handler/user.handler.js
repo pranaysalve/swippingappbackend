@@ -3,7 +3,7 @@ exports.login = (UserModel) => async (req, res, next) => {
     const findData = await UserModel.find({
       MobileNumber: req.body.MobileNumber,
     });
-    
+
     if (findData.length < 0) {
       res.status(200).json({
         message: `Mobile Number already exists`,
@@ -27,10 +27,9 @@ exports.login = (UserModel) => async (req, res, next) => {
     });
   } catch (err) {
     console.log({ err });
-    res.status(200).json({
+    res.status(400).json({
       status: "success",
       message: `Error ${err.message}`,
-      data: err.message,
     });
   }
 };
