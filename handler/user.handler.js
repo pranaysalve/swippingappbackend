@@ -29,7 +29,7 @@ exports.login = (UserModel) => async (req, res, next) => {
     console.log({ err });
     res.status(400).json({
       status: "error",
-      message: `Error ${err.message}`,
+      message: new Error(err),
     });
   }
 };
