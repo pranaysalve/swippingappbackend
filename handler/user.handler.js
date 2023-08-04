@@ -24,6 +24,7 @@ exports.login = (UserModel) => async (req, res, next) => {
   } catch (err) {
     console.log({ err });
     new AppError(`${err.message}`, 400);
+    return next();
   }
 };
 
