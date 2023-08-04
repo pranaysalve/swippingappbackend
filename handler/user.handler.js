@@ -1,22 +1,18 @@
+const AppError = require("../utils/appError");
+
 exports.login = (UserModel) => async (req, res, next) => {
   try {
     const findData = await UserModel.find({
       MobileNumber: req.body.MobileNumber,
     });
 
-    if (findData.length < 0) {
-      res.status(200).json({
-        message: `Mobile Number already exists`,
-        data: findData,
-      });
+    if (findData.length > 0) {
+      new AppError("Mobile number already exists");
       return next();
     }
     const doc = await UserModel.create(req.body);
     if (!doc) {
-      res.status(200).json({
-        status: 200,
-        message: `Can not let user login`,
-      });
+      new AppError("User Can not login");
       return next();
     }
     res.status(200).json({
@@ -27,10 +23,7 @@ exports.login = (UserModel) => async (req, res, next) => {
     });
   } catch (err) {
     console.log({ err });
-    res.status(400).json({
-      status: "error",
-      message: new Error(err),
-    });
+    new AppError(`${err.message}`, 400);
   }
 };
 
