@@ -11,6 +11,7 @@ const cors = require("cors");
 const { urlencoded } = require("body-parser");
 const { populate } = require("dotenv");
 const UserRouter = require("./route/user.route");
+const ProfileRouter = require("./route/profile.route");
 const app = express();
 app.enable("proxy");
 
@@ -35,7 +36,10 @@ const limiter = rateLimit({
 });
 
 app.use("/api/user", limiter);
-
+app.use((req, res, next) => {
+  console.log(`Route access: ${req.method} - ${req.originalUrl}`);
+  next();
+});
 app.use(express.json({ limit: "10kb" }));
 app.use(express.urlencoded({ extended: true, limit: "10kb" }));
 app.use(cookieParser());
@@ -59,5 +63,6 @@ app.get("/", (req, res) => {
 });
 
 app.use("/api/user", UserRouter);
+app.use("/api/profile", ProfileRouter);
 
 module.exports = app;
